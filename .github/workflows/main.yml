@@ -1,4 +1,3 @@
-# AMSA ASSURANCE
 name: Build & Deploy Microservices
 
 on:
@@ -50,26 +49,26 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/config-service:latest
 
-      - name: Build & Push remboursement-service
-        uses: docker/build-push-action@v2
-        with:
-          context: ./role-service
-          dockerfile: ./role-service/Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/remboursement-service:latest
-
-      - name: Build & Push souscription-service
-        uses: docker/build-push-action@v2
-        with:
-          context: ./user-service
-          dockerfile: ./user-service/Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/souscription-service:latest
-
-      - name: Build & Push Discovery-Service
+      - name: Build & Push discovery-service
         uses: docker/build-push-action@v2
         with:
           context: ./discovery-service
           dockerfile: ./discovery-service/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/discovery-service:latest
+
+      - name: Build & Push paiement-service
+        uses: docker/build-push-action@v2
+        with:
+          context: ./paiement-service
+          dockerfile: ./paiement-service/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/paiement-service:latest
+
+      - name: Build & Push remboursement-service
+        uses: docker/build-push-action@v2
+        with:
+          context: ./remboursement-service
+          dockerfile: ./remboursement-service/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/remboursement-service:latest
