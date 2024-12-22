@@ -41,8 +41,22 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
+      # Debug: Liste le contenu du répertoire de chaque service pour vérifier la présence de target/
+      - name: List target directory in config-service
+        run: ls -alh ./config-service/target
+
+      - name: List target directory in discovery-service
+        run: ls -alh ./discovery-service/target
+
+      - name: List target directory in user-service
+        run: ls -alh ./user-service/target
+
+      - name: List target directory in role-service
+        run: ls -alh ./role-service/target
+
       # Étape 6: Build et Push Docker Images pour chaque microservice
       - name: Build & Push config-service
+        working-directory: ./config-service
         uses: docker/build-push-action@v2
         with:
           context: ./config-service
@@ -51,6 +65,7 @@ jobs:
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/config-service:config-service-v1
 
       - name: Build & Push discovery-service
+        working-directory: ./discovery-service
         uses: docker/build-push-action@v2
         with:
           context: ./discovery-service
@@ -59,6 +74,7 @@ jobs:
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/discovery-service:discovery-service-v1
 
       - name: Build & Push paiement-service
+        working-directory: ./user-service
         uses: docker/build-push-action@v2
         with:
           context: ./user-service
@@ -67,10 +83,10 @@ jobs:
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/user-service:paiement-service-v1
 
       - name: Build & Push role-service
+        working-directory: ./role-service
         uses: docker/build-push-action@v2
         with:
           context: ./role-service
           file: ./role-service/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/role-service:remboursement-service-v1
-
