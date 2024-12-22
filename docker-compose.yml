@@ -30,7 +30,7 @@ services:
     build: ./role-service
     container_name: role-service
     ports:
-      - '8082:8082'
+     - '8082:8082'
     expose:
       - '8082'
     environment:
@@ -53,12 +53,8 @@ services:
     environment:
       - DISCOVERY_SERVICE_URL=http://discovery-service:8761/eureka
       - CONFIG_SERVICE_URL=http://config-service:9999
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:9999/actuator/health" ]
-      interval: 10s
-      retries: 4
     depends_on:
-      config-service:
+      role-service:
         condition: service_healthy
   gateway-service:
     build: ./gateway-service

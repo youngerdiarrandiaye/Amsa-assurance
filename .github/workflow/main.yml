@@ -1,0 +1,74 @@
+name: Build & Deploy Microservices
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '**/README.md'
+      - '**/docker-compose.yml'
+
+jobs:
+  build-and-deploy:
+    name: Build and Deploy Microservices
+    runs-on: ubuntu-latest
+
+    steps:
+      # Étape 1: Récupérer le code source
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Étape 2: Configuration de Java
+      - name: Setup JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'corretto'
+          java-version: 17
+
+      # Étape 3: Tester tous les modules Maven
+      - name: Run Unit Tests
+        run: mvn test --file pom.xml
+
+      # Étape 4: Compiler et empaqueter tous les microservices
+      - name: Build all services
+        run: mvn clean package -DskipTests --file pom.xml
+
+      # Étape 5: Login to Docker Hub
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      # Étape 6: Build et Push Docker Images pour chaque microservice
+      - name: Build & Push config-service
+        uses: docker/build-push-action@v2
+        with:
+          context: ./config-service
+          dockerfile: ./config-service/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/config-service:latest
+
+      - name: Build & Push remboursement-service
+        uses: docker/build-push-action@v2
+        with:
+          context: ./role-service
+          dockerfile: ./role-service/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/remboursement-service:latest
+
+      - name: Build & Push souscription-service
+        uses: docker/build-push-action@v2
+        with:
+          context: ./user-service
+          dockerfile: ./user-service/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/souscription-service:latest
+
+      - name: Build & Push Discovery-Service
+        uses: docker/build-push-action@v2
+        with:
+          context: ./discovery-service
+          dockerfile: ./discovery-service/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/discovery-service:latest
