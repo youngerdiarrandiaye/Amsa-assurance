@@ -43,37 +43,34 @@ jobs:
 
       # Étape 6: Build et Push Docker Images pour chaque microservice
       - name: Build & Push config-service
-        working-directory: ./config-service
         uses: docker/build-push-action@v2
         with:
-          context: .
+          context: ../config-service
           file: ./config-service/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/config-service:config-service-v1
 
       - name: Build & Push discovery-service
-        working-directory: ./discovery-service
         uses: docker/build-push-action@v2
         with:
-          context: .
+          context: ../discovery-service
           file: ./discovery-service/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/discovery-service:discovery-service-v1
 
       - name: Build & Push paiement-service
-        working-directory: ./user-service
         uses: docker/build-push-action@v2
         with:
-          context: .
+          context: ../user-service
           file: ./user-service/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/user-service:paiement-service-v1
 
       - name: Build & Push role-service
-        working-directory: ./role-service
         uses: docker/build-push-action@v2
         with:
-          context: .
+          context: ../role-service
           file: ./role-service/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/role-service:remboursement-service-v1
+
