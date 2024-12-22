@@ -38,7 +38,6 @@ jobs:
 
       # Étape 5: Build et Push Docker Images pour chaque microservice
       - name: Build & Push config-service
-        working-directory: ./config-service
         uses: docker/build-push-action@v2
         with:
           context: .
@@ -47,7 +46,6 @@ jobs:
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/config-service:latest
 
       - name: Build & Push discovery-service
-        working-directory: ./discovery-service
         uses: docker/build-push-action@v2
         with:
           context: .
@@ -56,7 +54,6 @@ jobs:
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/discovery-service:latest
 
       - name: Build & Push user-service
-        working-directory: ./user-service
         uses: docker/build-push-action@v2
         with:
           context: .
@@ -65,7 +62,6 @@ jobs:
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/user-service:latest
 
       - name: Build & Push role-service
-        working-directory: ./role-service
         uses: docker/build-push-action@v2
         with:
           context: .
