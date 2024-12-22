@@ -46,30 +46,30 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: ./config-service
-          dockerfile: ./config-service/Dockerfile
+          file: ./config-service/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/config-service:latest
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/config-service:config-service-v1
 
       - name: Build & Push discovery-service
         uses: docker/build-push-action@v2
         with:
           context: ./discovery-service
-          dockerfile: ./discovery-service/Dockerfile
+          file: ./discovery-service/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/discovery-service:latest
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/discovery-service:discovery-service-v1
 
       - name: Build & Push paiement-service
         uses: docker/build-push-action@v2
         with:
           context: ./paiement-service
-          dockerfile: ./paiement-service/Dockerfile
+          file: ./paiement-service/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/paiement-service:latest
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/paiement-service:paiement-service-v1
 
       - name: Build & Push remboursement-service
         uses: docker/build-push-action@v2
         with:
           context: ./remboursement-service
-          dockerfile: ./remboursement-service/Dockerfile
+          file: ./remboursement-service/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/remboursement-service:latest
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/remboursement-service:remboursement-service-v1
