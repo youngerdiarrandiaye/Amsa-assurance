@@ -53,18 +53,26 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/discovery-service:latest
 
-      - name: Build & Push user-service
+      - name: Build & Push gateway-service
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./gateway-service/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/gateway-service:latest
+
+      - name: Build & Push remboursement-service
         uses: docker/build-push-action@v4
         with:
           context: .
           file: ./user-service/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/user-service:latest
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/remboursement-service:latest
 
-      - name: Build & Push role-service
+      - name: Build & Push souscription-service
         uses: docker/build-push-action@v4
         with:
           context: .
           file: ./role-service/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/role-service:latest
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/souscription-service:latest
